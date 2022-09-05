@@ -8,11 +8,12 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--sw", help="Scale width", default=3.5, type=float)
-parser.add_argument("--sh", help="Scale height", default=3.5, type=float)
+parser.add_argument("--sw", help="Scale of width", default=1.0, type=float)
+parser.add_argument("--sh", help="Scale of heigth", default=1.0, type=float)
 parser.add_argument('--sb', help="Scale both", default=True, type=bool)
 
 args = parser.parse_args()
+scale_w, scale_h, scale_both = args.sw, args.sh, args.sb
 
 worker = FrameWorker()
 
@@ -22,7 +23,8 @@ for line in sys.stdin:
 
     frame = json.loads(line)
 
-    frame = worker.frame_processing(frame, args.sw, args.sh, args.sb)
+    
+    frame = worker.frame_processing(frame, scale_w, scale_h, scale_both)
 
     sys.stdout.write(json.dumps(frame))
     sys.stdout.write("\n")
